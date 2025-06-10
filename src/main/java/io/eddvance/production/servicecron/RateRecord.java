@@ -1,26 +1,30 @@
 package io.eddvance.production.servicecron;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import jakarta.persistence.*;
 
 import java.time.LocalTime;
 
-@EntityScan
+
+@Entity
+@Table(name = "lowcarbpower_history")
 public class RateRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
+    @Column(nullable = false)
     private Double rate;
+
+    @Column(nullable = false)
     private LocalTime rateTime;
 
-    public RateRecord(Long id, Double rate, LocalTime rateTime) {
-        this.id = id;
+    public RateRecord(Double rate, LocalTime rateTime) {
         this.rate = rate;
         this.rateTime = rateTime;
+    }
+
+    public RateRecord() {
     }
 
     public Long getId() {
