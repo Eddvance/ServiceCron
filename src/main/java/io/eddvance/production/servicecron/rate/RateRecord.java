@@ -1,9 +1,8 @@
-package io.eddvance.production.servicecron;
+package io.eddvance.production.servicecron.rate;
 
 import jakarta.persistence.*;
 
-import java.time.LocalTime;
-
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lowcarbpower_history")
@@ -17,9 +16,9 @@ public class RateRecord {
     private Double rate;
 
     @Column(nullable = false)
-    private LocalTime rateTime;
+    private LocalDateTime rateTime;
 
-    public RateRecord(Double rate, LocalTime rateTime) {
+    public RateRecord(Double rate, LocalDateTime rateTime) {
         this.rate = rate;
         this.rateTime = rateTime;
     }
@@ -43,11 +42,11 @@ public class RateRecord {
         this.rate = rate;
     }
 
-    public LocalTime getRateTime() {
+    public LocalDateTime getRateTime() {
         return rateTime;
     }
 
-    public void setRateTime(LocalTime rateTime) {
+    public void setRateTime(LocalDateTime rateTime) {
         this.rateTime = rateTime;
     }
 }
