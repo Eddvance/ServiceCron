@@ -25,7 +25,7 @@ public class WebClientConfig {
                                 .addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS)));
 
         return WebClient.builder()
-                .baseUrl("http://low-carb-power")
+                .baseUrl("http://localhost:8081")
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

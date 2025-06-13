@@ -1,6 +1,5 @@
-package io.eddvance.production.servicecron;
+package io.eddvance.production.servicecron.rate;
 
-import io.eddvance.production.servicecron.rate.RateHistoryService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
