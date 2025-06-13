@@ -1,6 +1,5 @@
 package io.eddvance.production.servicecron.rate;
 
-import io.eddvance.production.servicecron.config.WebClientConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
