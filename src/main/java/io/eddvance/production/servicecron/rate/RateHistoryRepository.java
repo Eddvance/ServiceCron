@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface RateHistoryRepository extends JpaRepository<RateRecord, Long> {
 
-    Optional<RateRecord> findTopByOrderByCollectedAtDesc();
+    Optional<RateRecord> findTopByOrderByRateTimeDesc();
 
 }

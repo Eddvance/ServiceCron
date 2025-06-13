@@ -36,6 +36,6 @@ public class RateHistoryService {
     }
 
     public Optional<RateRecord> getLatestRate() {
-        return rateHistoryRepository.findTopByOrderByCollectedAtDesc();
+        return rateHistoryRepository.findTopByOrderByRateTimeDesc();
     }
 }
