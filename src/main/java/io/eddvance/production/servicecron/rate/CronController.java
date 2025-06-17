@@ -3,6 +3,7 @@ package io.eddvance.production.servicecron.rate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/rates")
@@ -15,8 +16,9 @@ public class CronController {
     }
 
     @GetMapping("last-rate")
-    public RateRecord rateConsultRecord() {
-        return rateHistoryService.getLatestRate().orElseThrow(() -> new RuntimeException("No record found"));
+    public Mono<RateRecord> rateConsultRecord() {
+        return rateHistoryService.getLatestRate();
+
     }
     @GetMapping("/collect-now")
     public void forceCollect() {

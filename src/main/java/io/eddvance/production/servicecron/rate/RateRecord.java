@@ -1,21 +1,19 @@
 package io.eddvance.production.servicecron.rate;
 
-import jakarta.persistence.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "lowcarbpower_history")
+@Table(name = "rate_history")
 public class RateRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Double rate;
 
-    @Column(nullable = false)
     private LocalDateTime rateTime;
 
     public RateRecord(Double rate, LocalDateTime rateTime) {

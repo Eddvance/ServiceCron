@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -12,7 +15,7 @@ public class RateHistoryService {
 
     private final RateHistoryRepository rateHistoryRepository;
     private final WebClient lowCarbPowerWebClient;
-
+    private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RateHistoryService.class);
     public RateHistoryService(RateHistoryRepository rateHistoryRepository, WebClient lowCarbPowerWebClient) {
         this.rateHistoryRepository = rateHistoryRepository;
         this.lowCarbPowerWebClient = lowCarbPowerWebClient;
@@ -27,14 +30,19 @@ public class RateHistoryService {
                 .bodyToMono(String.class)
                 .map(rateString -> Double.parseDouble(rateString.trim()))
                 .map(rate -> new RateRecord(rate, LocalDateTime.now()))
-                .map(rateHistoryRepository::save)
+                .flatMap(rateHistoryRepository::save)
                 .doOnSuccess(record ->
-                        System.out.println("✅ Tarif enregistré: " + record.getRate() +
-                                " à " + record.getRateTime())
-                );
+                        log.info("✅ Tarif enregistré: {} €/kWh à {}",
+                                record.getRate(), record.getRateTime())
+                )
+                .doOnError(error ->
+                        log.error("❌ Erreur lors de l'enregistrement du tarif", error)
+                )
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
+                        .maxBackoff(Duration.ofSeconds(10)));
     }
 
-    public Optional<RateRecord> getLatestRate() {
+    public Mono<RateRecord> getLatestRate() {
         return rateHistoryRepository.findTopByOrderByRateTimeDesc();
     }
 }

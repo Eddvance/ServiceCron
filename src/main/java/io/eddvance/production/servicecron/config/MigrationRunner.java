@@ -1,0 +1,18 @@
+package io.eddvance.production.servicecron.config;
+
+
+import io.eddvance.production.servicecron.migration.R2dbcMigration;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MigrationRunner {
+    @Bean
+    ApplicationRunner runMigrations(R2dbcMigration migration) {
+        return args -> {
+            migration.migrate().block();
+            System.out.println("✅ Base de données prête !");
+        };
+    }
+}
